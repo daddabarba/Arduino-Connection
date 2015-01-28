@@ -7,8 +7,6 @@
 #include <string.h>
 #include <string>
 
-using namespace std;
-
 namespace apt
 {
     size_t Get_size(const char str[]);

@@ -1,6 +1,6 @@
 This is a simple library to provides the connection between a Unix based system and the Arduino platform.
 
-Always remember to open the arduino serial monitor and change the serial-port path in the test.cpp file before compiling or the connection will be impossible.
+Always remember to open the arduino serial monitor and change the serial-port path, which You can find in the Arduino IDE in "tools/serial port" in the test.cpp file before compiling or the connection will be impossible.
 
 
 

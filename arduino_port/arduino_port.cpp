@@ -1,5 +1,3 @@
-using namespace std;
-
 size_t apt::Get_size(const char str[])
 {
     if (str!=NULL)
@@ -54,7 +52,7 @@ int apt::Arduino::Connect()
 
 bool apt::Arduino::Writes(const char str[])
 {
-    size_t len = Get_size(str);
+    size_t len = apt::Get_size(str);
     
     if(len == write(fd,str,len))
         return true;
