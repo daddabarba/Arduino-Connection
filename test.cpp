@@ -9,29 +9,29 @@ int main()
 
     char stringa[40];
     
-   Arduino obj("/dev/tty.usbmodem3a21");
+    Arduino obj("/dev/tty.usbmodem3a21");
     
-    cout<<"object created"<<endl<<"checking connection..."<<endl;
+    cout<<"object created"<<endl<<"checking connection...\n"<<endl;
     
     switch(obj.Connect())
     {
         case -1:
-            cout<<"ERR: cannot get the file descriptor"<<endl;
+            cout<<"ERR: cannot get the file descriptor\n"<<endl;
             return 0;
             break;
         
         case -2:
-            cout<<"ERR: could not get terminal options"<<endl;
+            cout<<"ERR: could not get terminal options\n"<<endl;
             return 0;
             break;
         
         case -3:
-            cout<<"ERR: could not set new terminal options"<<endl;
+            cout<<"ERR: could not set new terminal options\n"<<endl;
             return 0;
             break;
             
         case 0:
-            cout<<"Connection succeded!!"<<endl;
+            cout<<"Connection succeded!\n"<<endl;
             break;
             
         default:
@@ -40,13 +40,13 @@ int main()
     
     cin>>stringa;
     
-    if(obj.Writes(stringa)==true)
+    if(obj.Write(stringa)==true)
     {
-        cout<<"Sending succeded!!!"<<endl;
+        cout<<"Sending succeded!\n"<<endl;
     }
     else
     {
-        cout<<"ERR: could not send to arduino"<<endl;
+        cout<<"ERR: could not send to arduino\n"<<endl;
     }
     
     

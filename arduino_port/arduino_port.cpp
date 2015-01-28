@@ -1,10 +1,10 @@
-size_t apt::Get_size(const char str[])
+size_t apt::GetSize(const char _str[])
 {
-    if (str!=NULL)
+    if (_str!=NULL)
     {
         size_t i;
         
-        for (i=0; str[i]!='\0'; i++)
+        for (i=0; _str[i]!='\0'; i++)
         {}
         
         return i; // return the number of chars in the string, '\0' escluded.
@@ -50,9 +50,9 @@ int apt::Arduino::Connect()
         return 0;
 }
 
-bool apt::Arduino::Writes(const char str[])
+bool apt::Arduino::Write(const char str[])
 {
-    size_t len = apt::Get_size(str);
+    size_t len = apt::GetSize(str);
     
     if(len == write(fd,str,len))
         return true;
