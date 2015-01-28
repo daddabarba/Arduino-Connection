@@ -6,49 +6,44 @@ using namespace apt;
 
 int main()
 {
+    char str[40];
 
-    char stringa[40];
-    
-   Arduino obj("/dev/tty.usbmodem3a21");
-    
-    cout<<"object created"<<endl<<"checking connection..."<<endl;
-    
-    switch(obj.Connect())
+    Arduino obj("/dev/ttyACM0");
+
+    cout << "\nObject created!\nChecking connection ...\n";
+
+    switch(obj.SafeConnect())
     {
         case -1:
-            cout<<"ERR: cannot get the file descriptor"<<endl;
+            cout << "ERR: cannot get the file descriptor\n" << endl;
             return 0;
-            break;
-        
+        break;
+
         case -2:
-            cout<<"ERR: could not get terminal options"<<endl;
+            cout << "ERR: could not get terminal options\n" << endl;
             return 0;
-            break;
-        
+        break;
+
         case -3:
-            cout<<"ERR: could not set new terminal options"<<endl;
+            cout << "ERR: could not set new terminal options\n" << endl;
             return 0;
-            break;
-            
+        break;
+
         case 0:
-            cout<<"Connection succeded!!"<<endl;
-            break;
-            
+            cout << "Connection succeded!\n\n";
+        break;
+
         default:
-            break;
+        break;
     }
-    
-    cin>>stringa;
-    
-    if(obj.Writes(stringa)==true)
-    {
-        cout<<"Sending succeded!!!"<<endl;
-    }
+
+    cout << "Enter text to send: ";
+    cin >> str;
+
+    if(obj.Write(str))
+        cout << "\nSending succeded!\n" << endl;
     else
-    {
-        cout<<"ERR: could not send to arduino"<<endl;
-    }
-    
-    
+        cout << "\nERR: could not send to arduino\nClosing the program ... \n" << endl;
+
     return 0;
 }
