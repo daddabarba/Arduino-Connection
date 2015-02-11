@@ -1,54 +1,43 @@
 #include <iostream>
-#include "arduino_port/arduino_port.h"
+#include "lib/arduino_connections.h"
 
 using namespace std;
-using namespace apt;
+using namespace ArC;
 
 int main()
 {
+    Arduino obj;
 
-    char stringa[40];
-    
-    Arduino obj("/dev/tty.usbmodem3a21");
-    
-    cout<<"object created"<<endl<<"checking connection...\n"<<endl;
-    
-    switch(obj.Connect())
+    cout << "\nTrying to connect with arduino ...\n";
+
+    switch(obj.usb_attach("/dev/tty.usbmodem3a21"))
     {
-        case -1:
-            cout<<"ERR: cannot get the file descriptor\n"<<endl;
-            return 0;
+        case 1:
+            cout << "Connection succeded!\nThe connection is stored in \"" << obj.get_path() << "\"\n";
+
+            if(obj.send("Hello World!\n"))
+                cout << "Sending succeded!\n" << endl;
+            else
+                cout << "ERR: unable to send to arduino\n" << endl;
+
             break;
-        
-        case -2:
-            cout<<"ERR: could not get terminal options\n"<<endl;
-            return 0;
-            break;
-        
-        case -3:
-            cout<<"ERR: could not set new terminal options\n"<<endl;
-            return 0;
-            break;
-            
+
         case 0:
-            cout<<"Connection succeded!\n"<<endl;
+            cout << "ERR: cannot get the file descriptor\n" << endl;
             break;
-            
+
+        case -1:
+            cout << "ERR: could not get terminal options\n" << endl;
+            break;
+
+        case -2:
+            cout << "ERR: could not set new terminal options\n" << endl;
+            break;
+
         default:
+            cout << "ERR: something went wrong while connecting\n" << endl;
             break;
     }
-    
-    cin>>stringa;
-    
-    if(obj.Write(stringa)==true)
-    {
-        cout<<"Sending succeded!\n"<<endl;
-    }
-    else
-    {
-        cout<<"ERR: could not send to arduino\n"<<endl;
-    }
-    
-    
+
     return 0;
 }
