@@ -15,7 +15,7 @@ int main()
         case 1:
             cout << "Connection succeded!\nThe connection is stored in \"" << obj.get_path() << "\"\n";
 
-            if(obj.send("Hello World!\n"))
+            if(obj.send_data("Hello World!\n"))
                 cout << "Sending succeded!\n" << endl;
             else
                 cout << "ERR: unable to send to arduino\n" << endl;

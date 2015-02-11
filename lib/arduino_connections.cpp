@@ -37,7 +37,7 @@ int ArC::Arduino::usb_attach(const char path[])
 
     strcpy(this->_fpath, path);
 
-    this->_fd = open(path, O_RDONLY | O_NONBLOCK);
+    this->_fd = open(path, O_RDWR | O_NONBLOCK | O_NDELAY);
 
     if (_fd < 0)
         return 0;
@@ -64,7 +64,7 @@ int ArC::Arduino::usb_attach(const char path[])
     return 1;
 }
 
-bool ArC::Arduino::send(const char msg[])
+bool ArC::Arduino::send_data(const char msg[])
 {
     size_t len = strlen(msg);
 

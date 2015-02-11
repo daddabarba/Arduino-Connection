@@ -49,7 +49,7 @@ namespace ArC
              else, the connection succeded and returns 1. */
 
           // send your data to arduino
-            bool send(const char msg[]);
+            bool send_data(const char msg[]);
           /* It return true if the number of chars written
              equals the number of chars recived by the file,
              otherwise returns false */
