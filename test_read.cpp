@@ -7,30 +7,32 @@ using namespace ArC;
 int main()
 {
     Arduino obj;
+    buf_t _buf[13]={0};
 
     cout << "\nTrying to connect with arduino ...\n";
 
-    switch(obj.usb_attach("/dev/tty.usbmodem3a21"))
+    switch(obj.usb_pair("/dev/ttyACM0", B9600))
     {
-        case 1:
-            cout << "Connection succeded!\nThe connection is stored in \"" << obj.get_path() << "\"\n";
-
-            if(obj.send_data("Hello World!\n"))
-                cout << "Sending succeded!\n" << endl;
-            else
-                cout << "ERR: unable to send to arduino\n" << endl;
-
-            break;
-
         case 0:
-            cout << "ERR: cannot get the file descriptor\n" << endl;
+            cout << "Connection succeded!\nThe connection is stored under \"" << obj.get_path() << "\"\n"
+                 << "Trying to reading from Arduino ...\n";
+
+            if (obj.get_data(_buf, sizeof _buf))
+                cout << "Arduino said: \"" << _buf << "\"" << endl;
+            else
+                cout << "Unable to read correctly from Arduino\nGotten data: \"" << _buf << "\"" << endl;
+
             break;
 
         case -1:
-            cout << "ERR: could not get terminal options\n" << endl;
+            cout << "ERR: cannot get the file descriptor\n" << endl;
             break;
 
         case -2:
+            cout << "ERR: could not get terminal options\n" << endl;
+            break;
+
+        case -3:
             cout << "ERR: could not set new terminal options\n" << endl;
             break;
 

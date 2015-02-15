@@ -8,6 +8,13 @@
 
 namespace ArC
 {
+    #define X_TIME 0x249F00   // 2 400 000
+    #define L_TIME 0x1E8480   // 2 000 000
+    #define M_TIME 0x1B7740   // 1 800 000
+    #define S_TIME 0x186A00   // 1 600 000
+
+    typedef char buf_t;
+
     class Arduino
     {
         private:
@@ -16,7 +23,7 @@ namespace ArC
           // To store the path to the file
             char *_fpath;
 
-            struct termios ttable;
+            struct termios tty_table;
           /* This is a struct declared in the "termios.h" library
              containing the following flags:
 
@@ -31,7 +38,7 @@ namespace ArC
              "tcsetattr" will use this to write the new file options */
 
         public:
-          // the Class destructor
+          // The Class destructor
             ~Arduino();
           // Initialize the class with proper values
             Arduino();
@@ -40,18 +47,26 @@ namespace ArC
             void detach();
 
           // Start an USB connection
-            int usb_attach(const char path[]);
+            int usb_pair(const char path[], const speed_t _baud, const useconds_t _init_time=L_TIME);
           /* To enstablish a proper connection to the
              device file described by the fd.
+             Remember to give the same _baud you gave to arduino!
              if it cannot get the fd reuturns 0,
              if it cannot get the file flags returns -1,
              if it cannot set the new file flags returns -2,
              else, the connection succeded and returns 1. */
 
-          // send your data to arduino
-            bool send_data(const char msg[]);
+          // Send _nbyte data to arduino
+            bool send_data(const buf_t data[], size_t _nbyte);
           /* It return true if the number of chars written
              equals the number of chars recived by the file,
+             otherwise returns false */
+
+          // Read _nbyte data from arduino
+            bool get_data(buf_t data[], size_t _nbyte);
+          /* It return true if the number of chars read
+             equals _nbyte-1 (remember that there must be '\0' at the end of the array
+             so if you want read 12 chars the size of your buf_t array must be 13),
              otherwise returns false */
 
           // Return the path to the file which store the current connection
