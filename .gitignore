@@ -1,2 +1,4 @@
 *.xcodeproj
 *.pbxproj
+*.~
+*.o
