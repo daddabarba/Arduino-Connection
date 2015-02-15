@@ -77,33 +77,59 @@ int ArC::Arduino::usb_pair(const char path[], const speed_t _baud, const usecond
     if (tcsetattr(_fd, TCSANOW, &tty_table) < 0)
         return -3;
 
-  // To show the current attrib #include <cstdlib> and uncomment the line below
+  // To save the current attribs, #include <cstdlib> and uncomment the line below
     //system("stty -F /dev/ttyACM1 -a > attrib.txt");
 
-  // It's a good use to wait untill the changes will be initializated, code below
+  // Wait untill the changes will be initializated, code below
     usleep(_init_time);
 
     return 0;
 }
 
-bool ArC::Arduino::send_data(const buf_t data[], size_t _nbyte)
-{
-    if (write(_fd, data, _nbyte) == _nbyte)
-        return true;
-    else
-        return false;
-}
+template<std::size_t SIZE>
+    bool ArC::Arduino::send_data(const std::array<ArC::buf_t, SIZE>& _data)
+    {
+        if (write(_fd, _data.data(), _data.size()) == _data.size())
+            return true;
+        else
+            return false;
+    }
 
-bool ArC::Arduino::get_data(buf_t data[], size_t _nbyte)
-{
-    if (_nbyte > 1)
-        _nbyte--;
+template<std::size_t SIZE>
+    bool ArC::Arduino::get_data(std::array<ArC::buf_t, SIZE>& _data)
+    {
+        std::size_t _nbyte = _data.size()-1;
 
-    if (read(_fd, data, _nbyte) == _nbyte)
-        return true;
-    else
-        return false;
-}
+        memset(_data.data(), 0, _nbyte+1);
+
+        if (read(_fd, _data.data(), _nbyte) == _nbyte)
+            return true;
+        else
+            return false;
+    }
+
+template<std::size_t SIZE>
+    bool ArC::Arduino::send_f_data(const std::array<ArC::buf_t, SIZE>& _data, std::size_t _nbyte)
+    {
+        if (write(_fd, _data.data(), _nbyte) == _nbyte)
+            return true;
+        else
+            return false;
+    }
+
+template<std::size_t SIZE>
+    bool ArC::Arduino::get_f_data(std::array<ArC::buf_t, SIZE>& _data, std::size_t _nbyte)
+    {
+        memset(_data.data(), 0, _data.size());
+
+        if (_nbyte >= _data.size())
+            return false;
+
+        if (read(_fd, _data.data(), _nbyte) == _nbyte)
+            return true;
+        else
+            return false;
+    }
 
 inline const char* ArC::Arduino::get_path()
 {

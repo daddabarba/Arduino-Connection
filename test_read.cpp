@@ -7,20 +7,28 @@ using namespace ArC;
 int main()
 {
     Arduino obj;
-    buf_t _buf[13]={0};
+
+  // Same as std::array<buf_t, 7> _buf = {0};
+    databuf<7> _buf = {0};
 
     cout << "\nTrying to connect with arduino ...\n";
 
+  // Remember to change B9600 with your baud rate
     switch(obj.usb_pair("/dev/ttyACM0", B9600))
     {
         case 0:
             cout << "Connection succeded!\nThe connection is stored under \"" << obj.get_path() << "\"\n"
                  << "Trying to reading from Arduino ...\n";
 
-            if (obj.get_data(_buf, sizeof _buf))
-                cout << "Arduino said: \"" << _buf << "\"" << endl;
+            if (obj.get_data(_buf))
+                cout << "Reading 1, Arduino said: \"" << _buf.data() << "\"" << endl;
             else
-                cout << "Unable to read correctly from Arduino\nGotten data: \"" << _buf << "\"" << endl;
+                cout << "Unable to read correctly from Arduino\nGotten data: \"" << _buf.data() << "\"" << endl;
+
+            if (obj.get_f_data(_buf, 6))
+                cout << "Reading 2, Arduino said: \"" << _buf.data() << "\"" << endl;
+            else
+                cout << "Unable to read correctly from Arduino\nGotten data: \"" << _buf.data() << "\"" << endl;
 
             break;
 
