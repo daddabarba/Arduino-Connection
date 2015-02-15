@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lib/arduino_connections.h"
+#include "../lib/arduino_connections.h"
 
 using namespace std;
 using namespace ArC;
@@ -14,7 +14,7 @@ int main()
     cout << "\nTrying to connect with arduino ...\n";
 
   // Remember to change B9600 with your baud rate
-    switch(obj.usb_pair("/dev/ttyACM0", B9600))
+    switch(obj.usb_pair("/dev/tty.usbmodem3a21", B9600))
     {
         case 0:
             cout << "Connection succeded!\nThe connection is stored under \"" << obj.get_path() << "\"\n"
