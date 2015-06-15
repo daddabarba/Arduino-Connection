@@ -1,4 +1,4 @@
-#Arduino Connections
+#Arduino Pair
 
 This is a simple library to provide the connection between a Unix based system and the Arduino platform.<br><br>
 Always remember to open the arduino serial monitor and change the serial-port path,<br>
